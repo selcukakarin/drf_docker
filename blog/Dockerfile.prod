@@ -47,6 +47,8 @@ RUN pip install --no-cache /wheels/*
 COPY ./entrypoint.prod.sh .
 RUN sed -i 's/\r$//g' $APP_HOME/entrypoint.prod.sh
 RUN chmod +x $APP_HOME/entrypoint.prod.sh
+RUN chmod +x /home/app/web/entrypoint.prod.sh
+
 
 # entrypoint.prod.sh dosyasını 'app' kullanıcısına ait yapın
 RUN chown app:app $APP_HOME/entrypoint.prod.sh
