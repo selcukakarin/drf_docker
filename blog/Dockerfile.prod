@@ -37,25 +37,25 @@ RUN mkdir $APP_HOME/mediafiles
 
 WORKDIR $APP_HOME
 
-RUN apt-get update && apt-get install -y --no-install-recommends netcat
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    netcat \
+    dos2unix        ########## değişen
+
+COPY . $APP_HOME        ########## değişen
 
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
-COPY ./entrypoint.prod.sh $APP_HOME/entrypoint.prod.sh
-
-# Kopyalama işleminden hemen sonra çalıştırılabilir izin ekleyin
-RUN chmod +x $APP_HOME/entrypoint.prod.sh
-
-RUN ls -l $APP_HOME/entrypoint.prod.sh
-
+COPY ./entrypoint.prod.sh .     ########## değişen
+RUN dos2unix $APP_HOME/entrypoint.prod.sh       ########## değişen
+RUN chmod +x $APP_HOME/entrypoint.prod.sh       ########## değişen
+RUN chmod +x /home/app/web/entrypoint.prod.sh       ########## değişen
 
 # entrypoint.prod.sh dosyasını 'app' kullanıcısına ait yapın
 RUN chown app:app $APP_HOME/entrypoint.prod.sh
 
-COPY . $APP_HOME
 
 RUN chown -R app:app $APP_HOME/staticfiles $APP_HOME/mediafiles
 RUN chmod -R 755 $APP_HOME/staticfiles $APP_HOME/mediafiles
@@ -65,9 +65,3 @@ RUN chown -R  app:app $APP_HOME
 USER app
 
 ENTRYPOINT [ "/home/app/web/entrypoint.prod.sh" ]
-
-
-
-
-
-
