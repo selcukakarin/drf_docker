@@ -45,10 +45,10 @@ RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
 # entrypoint.prod.sh dosyasını hedef klasöre kopyalayın
-COPY ./entrypoint.prod.sh /usr/src/app/docker-entrypoint.sh
+COPY ./entrypoint.prod.sh $APP_HOME/entrypoint.prod.sh
 
 # Kopyalama işleminden hemen sonra çalıştırılabilir izin ekleyin
-RUN ["chmod", "+x", "/usr/src/app/docker-entrypoint.sh"]
+RUN ["chmod", "+x", "/home/app/web/entrypoint.prod.sh"]
 RUN chmod 755 $APP_HOME/entrypoint.prod.sh
 RUN chmod +x $APP_HOME/entrypoint.prod.sh
 RUN chmod +x /home/app/web/entrypoint.prod.sh
