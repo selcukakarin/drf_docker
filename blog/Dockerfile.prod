@@ -39,19 +39,19 @@ WORKDIR $APP_HOME
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     netcat \
-    dos2unix        ########## değişen
+    dos2unix
 
-COPY . $APP_HOME        ########## değişen
+COPY . $APP_HOME
 
 COPY --from=builder /usr/src/app/wheels /wheels
 COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
-COPY ./entrypoint.prod.sh .     ########## değişen
-RUN dos2unix $APP_HOME/entrypoint.prod.sh       ########## değişen
-RUN chmod +x $APP_HOME/entrypoint.prod.sh       ########## değişen
-RUN chmod +x /home/app/web/entrypoint.prod.sh       ########## değişen
+COPY ./entrypoint.prod.sh .
+RUN dos2unix $APP_HOME/entrypoint.prod.sh
+RUN chmod +x $APP_HOME/entrypoint.prod.sh
+RUN chmod +x /home/app/web/entrypoint.prod.sh
 
 # entrypoint.prod.sh dosyasını 'app' kullanıcısına ait yapın
 RUN chown app:app $APP_HOME/entrypoint.prod.sh
