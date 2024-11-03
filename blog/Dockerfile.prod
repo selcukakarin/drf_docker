@@ -44,7 +44,7 @@ COPY --from=builder /usr/src/app/requirements.txt .
 RUN pip install --upgrade pip
 RUN pip install --no-cache /wheels/*
 
-COPY ./entrypoint.prod.sh .
+COPY ./entrypoint.prod.sh $APP_HOME/entrypoint.prod.sh
 RUN chmod 755 $APP_HOME/entrypoint.prod.sh
 RUN chmod +x $APP_HOME/entrypoint.prod.sh
 RUN chmod +x /home/app/web/entrypoint.prod.sh
